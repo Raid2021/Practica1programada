@@ -1,0 +1,5 @@
+<Solution>
+  <Project Path="GestionClientes.AccesoDatos/GestionClientes.AccesoDatos.csproj" />
+  <Project Path="GestionClientes.LogicaNegocio/GestionClientes.LogicaNegocio.csproj" />
+  <Project Path="GestionClientes/GestionClientes.csproj" />
+</Solution>
