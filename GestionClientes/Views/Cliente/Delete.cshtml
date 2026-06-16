@@ -1,0 +1,96 @@
+@model ClienteDTO
+
+@{
+    ViewData["Title"] = "Eliminar Cliente";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2 class="mb-0 text-danger">Eliminar Cliente</h2>
+    <a asp-action="Index" class="btn btn-secondary">← Volver al Listado</a>
+</div>
+
+<div class="alert alert-danger d-flex align-items-center mb-4" role="alert">
+    <strong>¿Está seguro que desea eliminar este cliente?</strong>&nbsp;
+    Esta acción también eliminará todos sus teléfonos asociados y no se puede deshacer.
+</div>
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="card shadow-sm mb-4 border-danger">
+            <div class="card-header bg-danger text-white">
+                <h5 class="mb-0">Datos del Cliente a Eliminar</h5>
+            </div>
+            <div class="card-body">
+                <dl class="row mb-0">
+                    <dt class="col-sm-4">ID</dt>
+                    <dd class="col-sm-8">@Model.Id</dd>
+
+                    <dt class="col-sm-4">Cédula</dt>
+                    <dd class="col-sm-8">@Model.Cedula</dd>
+
+                    <dt class="col-sm-4">Nombre</dt>
+                    <dd class="col-sm-8">@Model.Nombre</dd>
+
+                    <dt class="col-sm-4">Apellidos</dt>
+                    <dd class="col-sm-8">@Model.Apellidos</dd>
+                </dl>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        @if (Model.Telefonos != null && Model.Telefonos.Any())
+        {
+            <div class="card shadow-sm mb-4 border-danger">
+                <div class="card-header bg-warning text-dark">
+                    <h5 class="mb-0">
+                        Teléfonos que serán eliminados
+                        <span class="badge bg-dark ms-2">@Model.Telefonos.Count</span>
+                    </h5>
+                </div>
+                <div class="card-body p-0">
+                    <table class="table table-sm mb-0">
+                        <thead class="table-light">
+                            <tr>
+                                <th>Número</th>
+                                <th>Tipo</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var tel in Model.Telefonos)
+                            {
+                                <tr>
+                                    <td>@tel.Numero</td>
+                                    <td>
+                                        <span class="badge bg-secondary">@tel.Tipo</span>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        }
+        else
+        {
+            <div class="card shadow-sm mb-4">
+                <div class="card-body text-muted">
+                    Este cliente no tiene teléfonos asociados.
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+<form asp-action="Delete" method="post">
+    @Html.AntiForgeryToken()
+    <input type="hidden" name="id" value="@Model.Id" />
+    <div class="d-flex gap-2">
+        <button type="submit" class="btn btn-danger">
+            Sí, eliminar cliente
+        </button>
+        <a asp-action="Details" asp-route-id="@Model.Id" class="btn btn-outline-secondary">
+            Cancelar
+        </a>
+    </div>
+</form>

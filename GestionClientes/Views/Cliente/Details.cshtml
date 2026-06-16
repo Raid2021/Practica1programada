@@ -1,0 +1,80 @@
+@model ClienteDTO
+
+@{
+    ViewData["Title"] = "Detalle del Cliente";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2 class="mb-0">Detalle del Cliente</h2>
+    <a asp-action="Index" class="btn btn-secondary">← Volver al Listado</a>
+</div>
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="card shadow-sm mb-4">
+            <div class="card-header bg-primary text-white">
+                <h5 class="mb-0">Información Personal</h5>
+            </div>
+            <div class="card-body">
+                <dl class="row mb-0">
+                    <dt class="col-sm-4">ID</dt>
+                    <dd class="col-sm-8">@Model.Id</dd>
+
+                    <dt class="col-sm-4">Cédula</dt>
+                    <dd class="col-sm-8">@Model.Cedula</dd>
+
+                    <dt class="col-sm-4">Nombre</dt>
+                    <dd class="col-sm-8">@Model.Nombre</dd>
+
+                    <dt class="col-sm-4">Apellidos</dt>
+                    <dd class="col-sm-8">@Model.Apellidos</dd>
+                </dl>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <div class="card shadow-sm mb-4">
+            <div class="card-header bg-success text-white">
+                <h5 class="mb-0">
+                    Teléfonos
+                    <span class="badge bg-light text-dark ms-2">@Model.Telefonos.Count</span>
+                </h5>
+            </div>
+            <div class="card-body p-0">
+                @if (Model.Telefonos == null || !Model.Telefonos.Any())
+                {
+                    <p class="text-muted p-3 mb-0">Este cliente no tiene teléfonos registrados.</p>
+                }
+                else
+                {
+                    <table class="table table-sm table-striped mb-0">
+                        <thead class="table-light">
+                            <tr>
+                                <th>Número</th>
+                                <th>Tipo</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var tel in Model.Telefonos)
+                            {
+                                <tr>
+                                    <td>@tel.Numero</td>
+                                    <td>
+                                        <span class="badge bg-info text-dark">@tel.Tipo</span>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="d-flex gap-2">
+    <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning">Editar</a>
+    <a asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-danger">Eliminar</a>
+    <a asp-action="Index" class="btn btn-outline-secondary">Cancelar</a>
+</div>
